@@ -2,12 +2,16 @@ import yaml
 import copy
 import argparse
 
+from connections import calc_connections
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog='Scale the docker-compose file',
         description='Scale the number of nodes',
         epilog='written by Bart Cox (2023)')
     parser.add_argument('num_nodes', type=int)
+    parser.add_argument('num_cons', type=int)
     parser.add_argument('topology_file', type=str, nargs='?', default='topologies/ring.yaml')
     parser.add_argument('algorithm', type=str, nargs='?', default='echo')
     parser.add_argument('template_file', type=str, nargs='?', default='docker-compose.template.yml')
@@ -33,7 +37,7 @@ if __name__ == '__main__':
             n['environment']['ALGORITHM'] = args.algorithm
             nodes[f'node{i}'] = n
 
-            connections[i] = [(i + 1) % args.num_nodes, (i - 1) % args.num_nodes]
+            connections[i] = calc_connections(i, args.num_nodes, args.num_cons)
 
         content['services'] = nodes
 
