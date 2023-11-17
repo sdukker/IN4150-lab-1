@@ -33,6 +33,7 @@ class DistributedAlgorithm(Community):
     async def started(
             self, node_id: int, connections: List[Tuple[int, int]], event: Event, use_localhost: bool = True
     ) -> None:
+        print(f"DA started")
         self.event = event
         self.node_id = node_id
         self.connections = connections
@@ -61,6 +62,7 @@ class DistributedAlgorithm(Community):
                 self.nodes[node_id] = conn_nodes[0]
             if not valid:
                 return
+
             self.cancel_pending_task("ensure_nodes_connected")
             print(f'[Node {self.node_id}] Starting')
             self.register_anonymous_task(

@@ -2,6 +2,7 @@ from ipv8.messaging.payload_dataclass import overwrite_dataclass
 from dataclasses import dataclass
 
 from da_types import *
+from ipv8.types import Peer
 
 # We are using a custom dataclass implementation.
 dataclass = overwrite_dataclass(dataclass)
@@ -22,15 +23,17 @@ class EchoAlgorithm(DistributedAlgorithm):
     """
 
     def __init__(self, settings: CommunitySettings) -> None:
+        print("echo init")
         super().__init__(settings)
         self.echo_counter = 0
         self.max_echo_count = 10
         self.add_message_handler(MyMessage, self.on_message)
 
     def on_start(self):
+        print("echo start")
         if self.node_id == 1:
             #  Only node 1 starts
-            peer = self.nodes[0]
+            peer: Peer = self.nodes[0]
             self.ez_send(peer, MyMessage(self.echo_counter))
 
     @message_wrapper(MyMessage)

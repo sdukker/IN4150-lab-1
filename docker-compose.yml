@@ -55,30 +55,6 @@ services:
         ipv4_address: 192.168.55.13
     ports:
     - 9093:9093
-  node4:
-    build: .
-    environment:
-      ALGORITHM: election
-      EMPTY: null
-      PID: 4
-      TOPOLOGY: topologies/election.yaml
-    networks:
-      vpcbr:
-        ipv4_address: 192.168.55.14
-    ports:
-    - 9094:9094
-  node5:
-    build: .
-    environment:
-      ALGORITHM: election
-      EMPTY: null
-      PID: 5
-      TOPOLOGY: topologies/election.yaml
-    networks:
-      vpcbr:
-        ipv4_address: 192.168.55.15
-    ports:
-    - 9095:9095
 version: '3.7'
 x-common-variables:
   EMPTY: null

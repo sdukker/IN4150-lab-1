@@ -43,6 +43,7 @@ class RingElection(DistributedAlgorithm):
         self.add_message_handler(TerminationMessage, self.on_terminate)
 
     async def on_start(self):
+        """ We start by making the 'previous' node run in the election. Hence if this value is not updated, and it reaches said node, then it automatically has won. """
         await asyncio.sleep(random.uniform(1.0, 3.0))
         if not self.running:
             peer = list(self.nodes.values())[0]

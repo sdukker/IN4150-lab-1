@@ -5,6 +5,7 @@ from ipv8.configuration import ConfigBuilder, default_bootstrap_defs
 from ipv8.util import create_event_with_signals
 from ipv8_service import IPv8
 from algorithms import *
+from da_types import DistributedAlgorithm
 
 
 def get_algorithm(name: str) -> DistributedAlgorithm:
@@ -17,7 +18,7 @@ def get_algorithm(name: str) -> DistributedAlgorithm:
     return algorithms[name]
 
 
-async def start_communities(node_id, connections, algorithm, use_localhost=True) -> None:
+async def start_communities(node_id: str, connections: list, algorithm: DistributedAlgorithm, use_localhost=True) -> None:
     event = create_event_with_signals()
     base_port = 9090
     connections_updated = [(x, base_port + x) for x in connections]
@@ -57,6 +58,6 @@ if __name__ == "__main__":
     alg = get_algorithm(args.algorithm)
     with open(args.topology, "r") as f:
         topology = yaml.safe_load(f)
-        connections = topology[node_id]
+        connections: list = topology[node_id]
 
         run(start_communities(node_id, connections, alg, not args.docker))
